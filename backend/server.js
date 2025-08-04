@@ -8,10 +8,8 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/internApp", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log("MongoDB connected"))
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
 // Schema
@@ -34,6 +32,11 @@ app.post("/api/applicants", async (req, res) => {
 app.get("/api/applicants", async (req, res) => {
   const applicants = await Applicant.find();
   res.json(applicants);
+});
+
+// Root route for testing
+app.get("/", (req, res) => {
+  res.send("Internship Portal API is running ✅");
 });
 
 const PORT = process.env.PORT || 5000;
